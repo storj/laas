@@ -13,12 +13,12 @@ Before running the installation script, ensure you have the following:
 
 ## Installation
 
-1. Clone this repository or download the `install_llama3.py` script.
+1. Clone this repository or download the `llama3.py` script.
 2. Open a terminal and navigate to the directory containing the script.
 3. Run the installation script:
 
    ```
-   python install_llama3.py --model "meta-llama/Meta-Llama-3.1-8B" --token <YOUR_HF_TOKEN>
+   python llama3.py --model "meta-llama/Meta-Llama-3.1-8B" --token <YOUR_HF_TOKEN>
    ```
 
    Replace `"meta-llama/Meta-Llama-3.1-8B"` with the actual model name and `YOUR_HF_TOKEN"` with your Hugging Face access token.
