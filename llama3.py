@@ -1,7 +1,6 @@
-import argparse
+import sys
 import subprocess
-from huggingface_hub import hf_hub_download, HfApi
-from huggingface_hub.utils import RepositoryNotFoundError, RevisionNotFoundError
+import argparse
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Llama 3 One-Click Installation Script")
@@ -9,23 +8,31 @@ def parse_arguments():
     parser.add_argument("--token", type=str, required=True, help="Hugging Face access token")
     return parser.parse_args()
 
-def install_dependencies():
-    subprocess.check_call([
-        "pip", "install", "--upgrade", "torch", "transformers", "accelerate", "huggingface_hub"
-    ])
+# this non-requirements.txt is simply for convienence
+def check_and_install_libraries():
+    required = ['transformers', 'torch', 'accelerate', 'huggingface_hub']
+    
+    for library in required:
+        try:
+            __import__(library)
+            print(f"{library} is already installed.")
+        except ImportError:
+            print(f"Installing {library}...")
+            subprocess.check_call([sys.executable, '-m', 'pip', 'install', library], 
+                                  stdout=subprocess.DEVNULL, 
+                                  stderr=subprocess.DEVNULL)
+            print(f"{library} installed successfully.")
 
-def get_model_files(model_name, token):
+def download_model(model_name, token):
+    from huggingface_hub import hf_hub_download, HfApi
+    from huggingface_hub.utils import RepositoryNotFoundError, RevisionNotFoundError
+
     api = HfApi()
     try:
         files = api.list_repo_files(repo_id=model_name, token=token)
-        return [f for f in files if f.endswith(('.json', '.model', '.safetensors', '.bin'))]
+        model_files = [f for f in files if f.endswith(('.json', '.model', '.safetensors', '.bin'))]
     except (RepositoryNotFoundError, RevisionNotFoundError):
         print(f"Error: Could not find repository or files for {model_name}")
-        return None
-
-def download_model(model_name, token):
-    model_files = get_model_files(model_name, token)
-    if not model_files:
         return False
 
     for file in model_files:
@@ -43,10 +50,14 @@ def download_model(model_name, token):
     return True
 
 def main():
-    args = parse_arguments()
-    
-    print("Installing dependencies...")
-    install_dependencies()
+    try:
+        args = parse_arguments()
+    except SystemExit:
+        print("Error: Invalid command line arguments.")
+        print("Usage: python script.py --model MODEL_NAME --token HF_TOKEN")
+        return
+
+    check_and_install_libraries()
     
     print(f"Attempting to download Llama 3 model: {args.model}")
     if download_model(args.model, args.token):

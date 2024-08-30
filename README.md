@@ -15,14 +15,24 @@ Before running the installation script, ensure you have the following:
 
 1. Clone this repository or download the `install_llama3.py` script.
 2. Open a terminal and navigate to the directory containing the script.
-3. Run the installation script:
+3. Create and Activate a venv environment for the work:
+
+```
+python -m venv llama3_env
+```
+
+    On Windows: `llama3_env\Scripts\activate`
+
+    On OSX / Linux: `source llama3_env/bin/activate`
+
+4. Run the installation script:
 
    ```
    python install_llama3.py --model "meta-llama/Meta-Llama-3.1-8B" --token <YOUR_HF_TOKEN>
    ```
 
    Replace `"meta-llama/Meta-Llama-3.1-8B"` with the actual model name and `YOUR_HF_TOKEN"` with your Hugging Face access token.
-4. The script will install dependencies and download the model files. This process may take some time depending on your internet connection and the size of the model.
+5. The script will install dependencies and download the model files. This process may take some time depending on your internet connection and the size of the model.
 
 ## Usage
 
