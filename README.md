@@ -21,9 +21,17 @@ Before running the installation script, ensure you have the following:
 python -m venv llama3_env
 ```
 
-    On Windows: `llama3_env\Scripts\activate`
+On Windows:
 
-    On OSX / Linux: `source llama3_env/bin/activate`
+```
+llama3_env\Scripts\activate
+```
+
+On OSX / Linux:
+
+```
+source llama3_env/bin/activate
+```
 
 4. Run the installation script:
 
