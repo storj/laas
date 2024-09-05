@@ -50,7 +50,7 @@ After installation, you can use the Llama 3 model in your Python code as follows
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
 
-model_name = "meta-llama/Meta-Llama-3-8B"  # Use the appropriate model name
+model_name = "meta-llama/Meta-Llama-3.1-8B"  # Use the appropriate model name
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 model = AutoModelForCausalLM.from_pretrained(model_name, torch_dtype=torch.float16, device_map="auto")
 
